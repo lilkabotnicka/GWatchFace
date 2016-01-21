@@ -10,3 +10,6 @@
 
 #  Don't include IntelliJ project files
 .idea/
+
+# Don't include the Google logo
+g_logo*.xml
