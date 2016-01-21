@@ -236,8 +236,6 @@ public class GWatchFace extends CanvasWatchFaceService {
                     mAmbientBackgroundVector.setBounds(vectorBounds);
                     mAmbientBackgroundVector.draw(canvas);
                 }
-
-                canvas.drawRect(mCardBounds, mAmbientBackgroundPaint);
             } else {
                 mBackgroundVector.setBounds(vectorBounds);
 
@@ -293,6 +291,11 @@ public class GWatchFace extends CanvasWatchFaceService {
                 canvas.drawLine(centerX, 0, centerX, secLength, mSecondHandPaint);
             }
             canvas.restore();
+
+            // Draw a box behind the notification card in the end, so that it covers everything.
+            if (mAmbient) {
+                canvas.drawRect(mCardBounds, mAmbientBackgroundPaint);
+            }
         }
 
         @Override
