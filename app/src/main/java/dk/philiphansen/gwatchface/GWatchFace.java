@@ -129,6 +129,15 @@ public class GWatchFace extends CanvasWatchFaceService {
 
         Rect mCardBounds;
 
+        float centerX;
+        float centerY;
+
+        float secLength;
+        float minLength;
+        float hourLength;
+
+        float dotOffset;
+
         @Override
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
@@ -219,6 +228,22 @@ public class GWatchFace extends CanvasWatchFaceService {
         }
 
         @Override
+        public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            // Find the center. Ignore the window insets so that, on round watches with a
+            // "chin", the watch face is centered on the entire screen, not just the usable
+            // portion.
+
+            centerX = width / 2f;
+            centerY = height / 2f;
+
+            secLength = centerX * 0.25f;
+            minLength = secLength * 2f;
+            hourLength = secLength * 3f;
+
+            dotOffset = centerX * 0.9f;
+        }
+
+        @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             mCalendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -242,18 +267,6 @@ public class GWatchFace extends CanvasWatchFaceService {
                 canvas.drawPaint(mBackgroundPaint);
                 mBackgroundVector.draw(canvas);
             }
-
-            // Find the center. Ignore the window insets so that, on round watches with a
-            // "chin", the watch face is centered on the entire screen, not just the usable
-            // portion.
-            float centerX = bounds.width() / 2f;
-            float centerY = bounds.height() / 2f;
-
-            float secLength = centerX * 0.25f;
-            float minLength = secLength * 2f;
-            float hourLength = secLength * 3f;
-
-            float dotOffset = centerX * 0.9f;
 
             float secRot = mCalendar.get(Calendar.SECOND) * (360f / 60f);
             float minRot = mCalendar.get(Calendar.MINUTE) * (360f / 60f);
